@@ -45,3 +45,4 @@ After starting the container, the API is available at:
 Swagger UI:
 
 `http://localhost:8000/docs`
+CI/CD pipeline configured with Azure DevOps and Docker Hub.
