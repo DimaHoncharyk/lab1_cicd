@@ -4,7 +4,7 @@ trigger:
 pool:
   name: Default
   demands:
-    - Agent.Name -equals MacBookAir-Agent
+  - Agent.Name -equals MacBookAir-Agent
 
 steps:
 - task: UsePythonVersion@0
@@ -21,6 +21,12 @@ steps:
     pytest -v
   displayName: 'Run unit tests'
 
-- script: |
-    docker build -t dimmmon/task-api:latest .
-  displayName: 'Build Docker image'
+- task: Docker@2
+  displayName: 'Build and push Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'
+    repository: 'dimmmon/task-api'
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    tags: |
+      latest
