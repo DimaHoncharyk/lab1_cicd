@@ -1,0 +1,32 @@
+trigger:
+- main
+
+pool:
+  name: Default
+  demands:
+  - Agent.Name -equals MacBookAir-Agent
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.12'
+  displayName: 'Use Python 3.12'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    pytest -v
+  displayName: 'Run unit tests'
+
+- task: Docker@2
+  displayName: 'Build and push Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'
+    repository: 'dimmmon/task-api'
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    tags: |
+      latest
