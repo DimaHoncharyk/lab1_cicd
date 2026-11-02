@@ -1,0 +1,11 @@
+apiVersion: v2
+
+name: task-manager
+
+description: Helm Chart for React, FastAPI and PostgreSQL Task Manager
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.0.0"

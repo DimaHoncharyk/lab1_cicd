@@ -1,0 +1,50 @@
+# React Frontend
+frontend:
+  image:
+    repository: dimmmon/task-frontend
+    tag: latest
+    pullPolicy: Always
+  replicas: 1
+  service:
+    port: 80
+
+# FastAPI Backend
+backend:
+  image:
+    repository: dimmmon/task-api
+    tag: latest
+    pullPolicy: Always
+  replicas: 1
+  service:
+    port: 8000
+
+# PostgreSQL Database
+postgresql:
+  image:
+    repository: postgres
+    tag: 17-alpine
+    pullPolicy: IfNotPresent
+
+  database: taskdb
+  username: taskuser
+  password: taskpass
+
+  service:
+    port: 5432
+
+  persistence:
+    enabled: true
+    size: 1Gi
+
+# Alembic Migrations
+migrations:
+  image:
+    repository: dimmmon/task-migrations
+    tag: latest
+    pullPolicy: Always
+
+# NGINX Ingress
+ingress:
+  enabled: true
+  className: nginx
+  host: task.local
