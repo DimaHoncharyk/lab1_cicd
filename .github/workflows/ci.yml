@@ -51,3 +51,11 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: dimmmon/task-frontend:latest
+
+      - name: Build and push Migrations Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./migration/Dockerfile
+          push: true
+          tags: dimmmon/task-migrations:latest
