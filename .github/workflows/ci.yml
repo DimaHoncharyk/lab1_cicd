@@ -59,3 +59,32 @@ jobs:
           file: ./migration/Dockerfile
           push: true
           tags: dimmmon/task-migrations:latest
+
+  helm-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.18.0
+
+      - name: Lint Helm Chart
+        run: helm lint ./k8s
+
+      - name: Render Kubernetes manifests
+        run: helm template task-manager ./k8s
+
+      - name: Package Helm Chart
+        run: |
+          mkdir -p helm-package
+          helm package ./k8s --destination helm-package
+
+      - name: Upload Helm Chart
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-manager-helm-chart
+          path: helm-package/*.tgz
