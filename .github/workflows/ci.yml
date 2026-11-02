@@ -44,3 +44,10 @@ jobs:
           context: .
           push: true
           tags: dimmmon/task-api:latest
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: dimmmon/task-frontend:latest
