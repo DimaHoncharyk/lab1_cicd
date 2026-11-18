@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backup-inspector
+  namespace: demo
+spec:
+  restartPolicy: Never
+  containers:
+    - name: inspector
+      image: postgres:17-alpine
+      command:
+        - /bin/sh
+        - -c
+        - sleep 36000
+      volumeMounts:
+        - name: backup-storage
+          mountPath: /backups
+          readOnly: true
+  volumes:
+    - name: backup-storage
+      persistentVolumeClaim:
+        claimName: postgres-backups
+        readOnly: true

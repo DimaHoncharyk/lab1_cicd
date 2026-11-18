@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: foreign-backup-cronjob
+  namespace: demo
+spec:
+  schedule: "0 12 * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: test
+              image: busybox:1.36
+              command:
+                - /bin/sh
+                - -c
+                - echo "Foreign CronJob"

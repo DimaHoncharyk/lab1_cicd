@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: databasebackup-controller
+  namespace: demo
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: databasebackup-controller
+  template:
+    metadata:
+      labels:
+        app: databasebackup-controller
+    spec:
+      serviceAccountName: databasebackup-controller
+      containers:
+        - name: controller
+          image: databasebackup-controller:1.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: WATCH_NAMESPACE
+              value: demo
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
